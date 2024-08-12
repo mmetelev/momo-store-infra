@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+data:
+  nginx.conf: |
+    server {
+        listen       80;
+        listen  [::]:80;
+        server_name  localhost;
+
+        location = / {
+            return 301 /momo-store/;
+        }
+        
+        location /momo-store/ {
+            root /app/frontend/;
+            index  index.html;
+            try_files $uri $uri/ /momo-store/index.html;
+        }
+
+        location /momo-store/products {
+            proxy_pass http://backend:8081/products;
+        }
+
+        location /momo-store/categories {
+            proxy_pass http://backend:8081/categories;
+        }
+
+        location /momo-store/orders {
+            proxy_pass http://backend:8081/orders;
+        }
+
+        location /momo-store/metrics {
+            proxy_pass http://backend:8081/metrics;
+        }
+
+        location /auth/whoami {
+            proxy_pass http://backend:8081/auth/whoami;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+    }
+
+    

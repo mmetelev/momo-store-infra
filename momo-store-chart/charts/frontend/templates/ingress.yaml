@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{.Chart.Name}}
+  namespace: {{.Values.global.namespace}}
+spec:
+  ingressClassName: "nginx"
+  tls:
+    - hosts:
+        - {{.Values.global.tls.hosts}}
+        - {{.Values.global.grafana_host}}
+      secretName: {{.Values.global.ssl_secret_name}}
+  rules:
+    - host: {{.Values.global.rules.host}}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{.Chart.Name}}
+                port:
+                  number: {{.Values.ports.targetPort}}
+    - host: {{.Values.global.grafana_host}}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 80

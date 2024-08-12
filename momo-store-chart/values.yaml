@@ -1,0 +1,27 @@
+global:
+  namespace: default
+  grafana_host: "test"
+  ssl_secret_name: "test"
+  tls:
+    hosts: "test"
+  rules:
+    host: "test"
+
+backend:
+  imagePullPolicy: Always
+  image: "gitlab.praktikum-services.ru:5050/sausage-group1/momo-store/momo-store-backend:latest"
+  replicas: 2
+  ports:
+    containerPort: 8081
+    targetPort: 8081
+
+frontend:
+  replicas: 1
+  strategy:
+    type: Recreate
+  restartPolicy: Always
+  ports:
+    containerPort: 80
+    targetPort: 80
+  imagePullPolicy: Always
+  image: "gitlab.praktikum-services.ru:5050/sausage-group1/momo-store/momo-store-frontend:latest"

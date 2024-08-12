@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example-certificate
+  namespace: default
+spec:
+  secretName: momo-ssl-secret
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: momo-store-practicum.ru
+  dnsNames:
+    - momo-store-practicum.ru
+    - grafana.momo-store-practicum.ru

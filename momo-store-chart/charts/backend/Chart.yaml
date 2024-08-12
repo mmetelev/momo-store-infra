@@ -1,0 +1,5 @@
+apiVersion: v2
+type: application
+name: backend
+description: Momo Store Backend Practicum Helm Chart
+version: 0.1.0

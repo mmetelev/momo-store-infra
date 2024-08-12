@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: gitlab.praktikum-services.ru:5050/sausage-group1/momo-store/momo-store-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - name: backend
+              containerPort: 8081
+      imagePullSecrets:
+        - name: gitlab-registry-secret
